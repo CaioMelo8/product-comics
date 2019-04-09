@@ -1,2 +1,37 @@
-<h3>{{ product.title }}</h3>
-<p>{{ product.description }}</p>
+<div class="card">
+  <div>
+    <img
+      class="card-img-top"
+      [src]="product.thumbnail?.path + '.' + product.thumbnail?.extension"
+    />
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 btn-group btn-group-toggle">
+        <label class="btn btn-outline-primary btn-sm">
+          <input type="radio" autocomplete="off" name="productCategory" checked /> Available
+        </label>
+        <label class="btn btn-outline-success btn-sm">
+          <input type="radio" autocomplete="off" name="productCategory" /> Purchased
+        </label>
+        <label class="btn btn-outline-secondary btn-sm">
+          <input type="radio" autocomplete="off" name="productCategory" /> To purchase
+        </label>
+      </div>
+    </div>
+    <h5 class="card-title">{{ product.title }}</h5>
+    <div class="container card-description" *ngIf="product.description; else noDescription">
+      <p class="card-text">{{ product.description }}</p>
+    </div>
+    <ng-template #noDescription>
+      <p class="card-text">No description available.</p>
+    </ng-template>
+    <footer class="card-footer" *ngIf="product.urls">
+      <a [href]="product.urls[0]?.url" class="text-dark font-weight-bold"
+        >See on
+        <img src="assets/imgs/MarvelLogo.svg" style="width: 2.5rem;" />
+        's website</a
+      >
+    </footer>
+  </div>
+</div>

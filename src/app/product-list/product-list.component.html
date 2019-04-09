@@ -1,7 +1,16 @@
 <div class="container mt-3">
   <div class="row">
-    <div class="col-3" *ngFor="let product of products">
-      <app-product [product]="product"></app-product>
+    <div class="text-center">
+      <button type="button" (click)="fetch()">
+        Fetch Data
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card-columns">
+      <div class="d-inline-block" *ngFor="let product of products">
+        <app-product [product]="product"></app-product>
+      </div>
     </div>
   </div>
 </div>

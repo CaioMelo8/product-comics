@@ -1,0 +1,4 @@
+.card .card-body .card-description {
+  height: 100px;
+  overflow: auto;
+}
