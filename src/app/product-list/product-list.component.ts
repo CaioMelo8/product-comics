@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent implements OnInit {
-  products: Product[];
+  productGroups = [];
 
-  page = 2;
+  page = 0;
 
   constructor(private productService: ProductService) {}
 
@@ -19,9 +19,20 @@ export class ProductListComponent implements OnInit {
   fetch() {
     this.productService.listComicsPaginated(this.page).subscribe(
       products => {
-        this.products = products;
+        this.productGroups = this.groupProducts(products);
       },
       err => console.log(err.message),
     );
+  }
+
+  groupProducts(products: Product[]) {
+    const groupLimit = 4;
+    const groups = [];
+
+    for (let i = 0; i < products.length; i += groupLimit) {
+      groups.push(products.splice(i, groupLimit));
+    }
+
+    return groups;
   }
 }

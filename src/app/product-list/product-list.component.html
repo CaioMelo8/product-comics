@@ -6,11 +6,9 @@
       </button>
     </div>
   </div>
-  <div class="row">
-    <div class="card-columns">
-      <div class="d-inline-block" *ngFor="let product of products">
-        <app-product [product]="product"></app-product>
-      </div>
+  <div class="row card-groups" *ngFor="let group of productGroups">
+    <div class="col-3" *ngFor="let product of group">
+      <app-product [product]="product"></app-product>
     </div>
   </div>
 </div>

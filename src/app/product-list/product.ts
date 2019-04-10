@@ -1,19 +1,19 @@
 import { ProductCategoryEnum } from './product-category.enum';
 
-export interface Product {
-  id: number;
-  title: string;
-  description: string;
+export class Product {
+  id = '';
+  title = '';
+  description = '';
+  category = ProductCategoryEnum.AVAILABLE.valueOf();
+  isFavorite = false;
   urls: [
     {
       type: string;
       url: string;
     }
-  ];
+  ] = [{ type: '', url: '' }];
   thumbnail: {
     path: string;
     extension: string;
-  };
-  isFavorite: boolean;
-  category: ProductCategoryEnum;
+  } = { path: '', extension: '' };
 }

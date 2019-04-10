@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { ProductListComponent } from './product-list.component';
-import { ProductModule } from './product/product.module';
 import { ProductService } from './product.service';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
-  declarations: [ProductListComponent],
-  imports: [CommonModule, HttpClientModule, ProductModule],
+  declarations: [ProductComponent, ProductListComponent],
+  imports: [CommonModule, HttpClientModule],
   exports: [ProductListComponent],
   providers: [ProductService],
 })
