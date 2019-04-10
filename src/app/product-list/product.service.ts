@@ -29,24 +29,31 @@ export class ProductService {
   private listComics(offset: number = 0, limit: number = 20) {
     return this.http
       .get<Product[]>(API_URL + 'public/comics', {
-        params: { apikey: API_KEY, offset: offset.toString(), limit: limit.toString() },
+        params: { apikey: API_KEY, offset: offset.toString(), limit: limit.toString() }
       })
       .pipe(
         map((response: any) => {
           const comics = response.data.results;
           return comics.map(comic => this.toProduct(comic));
-        }),
+        })
       );
   }
 
   listAllComics() {
     const storage_key = 'comics_all';
+    const cached_results = this.fromLocalStorage(storage_key);
+
+    if (cached_results) {
+      this.toProduct(cached_results);
+      console.log('results for first 100 comics saved on local storage');
+      return of(cached_results);
+    }
 
     return this.listComics(0, 100).pipe(
       tap(results => {
         this.toLocalStorage(storage_key, results);
         console.log('results for first 100 comics saved on local storage');
-      }),
+      })
     );
   }
 
@@ -66,7 +73,7 @@ export class ProductService {
       tap(results => {
         this.toLocalStorage(storage_key, results);
         console.log('results for page ' + page + ' saved on local storage');
-      }),
+      })
     );
   }
 

@@ -1,28 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Product } from './product';
-import { ProductService } from './product.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
   productGroups = [];
-
+  products = [];
   page = 0;
 
-  constructor(private productService: ProductService) {}
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {}
-
-  fetch() {
-    this.productService.listComicsPaginated(this.page).subscribe(
-      products => {
-        this.productGroups = this.groupProducts(products);
-      },
-      err => console.log(err.message),
-    );
+  ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.products = data['products'];
+      this.productGroups = this.groupProducts(this.products);
+    });
   }
 
   groupProducts(products: Product[]) {

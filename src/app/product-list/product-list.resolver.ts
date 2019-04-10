@@ -1,12 +1,23 @@
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Product } from './product';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Product } from './product';
+import { ProductService } from './product.service';
 
+@Injectable()
 export class ProductListResolver implements Resolve<Product[]> {
+  constructor(private productService: ProductService) {}
+
   resolve(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    state: RouterStateSnapshot
   ): Observable<Product[]> | Promise<Product[]> | Product[] {
-    return null;
+    const page = +route.queryParams['page'];
+
+    if (page) {
+      return this.productService.listComicsPaginated(page);
+    } else {
+      return this.productService.listAllComics();
+    }
   }
 }
