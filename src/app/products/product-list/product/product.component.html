@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-img-container">
+    <img src="assets/imgs/MarvelLogo.svg" class="logo" alt="" />
+    <img
+      class="card-img-top"
+      [src]="product.thumbnail?.path + '.' + product.thumbnail?.extension"
+    />
+  </div>
+  <div class="card-controls px-1 py-2">
+    <i
+      class="fa fa-2x px-2"
+      [class.fa-star]="product.isFavorite"
+      [class.fa-star-o]="!product.isFavorite"
+      [ngStyle]="{ style: expression }"
+      (click)="onFavorite()"
+      aria-hidden="true"
+    ></i>
+    <i
+      class="fa fa-2x px-2"
+      [class.fa-bookmark]="product.category === Category.TOPURCHASE"
+      [class.fa-bookmark-o]="product.category !== Category.TOPURCHASE"
+      (click)="onToPurchase()"
+      aria-hidden="true"
+    ></i>
+    <i
+      class="fa fa-dollar fa-2x px-2"
+      [ngClass]="{ 'fa-dollar-active': product.category === Category.PURCHASED }"
+      (click)="onPurchased()"
+      arial-hidden="true"
+    ></i>
+  </div>
+  <div class="card-body px-2 py-3">
+    <h2 class="card-title text-center">
+      {{ product.title }}
+    </h2>
+  </div>
+</div>

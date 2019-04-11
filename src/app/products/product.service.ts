@@ -3,17 +3,22 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { ProductStorageService } from '../core/product-storage/product-storage.service';
 import { Product } from './product';
 
 const API_URL = environment.API_ENDPOINT;
 const API_KEY = environment.API_KEY;
 const DEFAULT_PAGE_OFFSET = 20;
 
+const STORAGE_COMICS_ALL = 'comics_all';
+const STORAGE_COMICS_PAGE = 'comics_page';
+const STORAGE_COMICS_FAVORITES = 'comics_favorites';
+
 @Injectable()
 export class ProductService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private storageService: ProductStorageService) {}
 
-  private toProduct(object: any) {
+  private toProduct(object: Object) {
     const product = new Product();
     const keys = Object.keys(product);
 
@@ -40,18 +45,16 @@ export class ProductService {
   }
 
   listAllComics() {
-    const storage_key = 'comics_all';
-    const cached_results = this.fromLocalStorage(storage_key);
+    const cached_results = this.storageService.fromLocalStorage(STORAGE_COMICS_ALL);
 
     if (cached_results) {
-      this.toProduct(cached_results);
       console.log('results for first 100 comics saved on local storage');
       return of(cached_results);
     }
 
     return this.listComics(0, 100).pipe(
       tap(results => {
-        this.toLocalStorage(storage_key, results);
+        this.storageService.toLocalStorage(STORAGE_COMICS_ALL, results);
         console.log('results for first 100 comics saved on local storage');
       })
     );
@@ -59,29 +62,36 @@ export class ProductService {
 
   listComicsPaginated(page: number) {
     const offset = page * DEFAULT_PAGE_OFFSET;
-    const storage_key = 'comics_page' + page;
-    const cached_results = this.fromLocalStorage(storage_key);
+    const cached_results = this.storageService.fromLocalStorage(STORAGE_COMICS_PAGE + page);
 
     if (cached_results) {
-      this.toProduct(cached_results[0]);
       console.log('results for page ' + page + ' retrieved from local storage');
       return of(cached_results);
     }
 
     console.log('fetching results from server API');
+
     return this.listComics(offset).pipe(
       tap(results => {
-        this.toLocalStorage(storage_key, results);
+        this.storageService.toLocalStorage(STORAGE_COMICS_PAGE + page, results);
         console.log('results for page ' + page + ' saved on local storage');
       })
     );
   }
 
-  fromLocalStorage(key: string) {
-    return JSON.parse(window.localStorage.getItem(key));
+  addFavorite(product: Product): Product[] {
+    const favorites = this.listFavorites();
+
+    if (product && favorites) {
+      favorites.push(product);
+
+      this.storageService.toLocalStorage(STORAGE_COMICS_FAVORITES, favorites);
+
+      return favorites;
+    }
   }
 
-  toLocalStorage(key: string, value: any) {
-    window.localStorage.setItem(key, JSON.stringify(value));
+  listFavorites(): Product[] {
+    return this.storageService.fromLocalStorage(STORAGE_COMICS_FAVORITES);
   }
 }
