@@ -1,0 +1,33 @@
+.logo {
+  position: absolute;
+  width: 40px;
+  /* height: 35px; */
+  right: 18px;
+  top: 13px;
+}
+
+.card {
+  height: 400px;
+  border: 1px solid red;
+  border-radius: 0.25rem;
+  box-shadow: -4px 8px 11px 0px black;
+}
+
+.card-img-container {
+  height: 300px;
+}
+
+.card-img-container .card-img-top {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card .card-body .card-description {
+  height: 5rem;
+  overflow: auto;
+}
+
+.card .card-body h5 {
+  font-size: 17px;
+}
