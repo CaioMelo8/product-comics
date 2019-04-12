@@ -1,0 +1,62 @@
+.logo {
+  position: absolute;
+  width: 60px;
+  right: 10px;
+  top: 13px;
+}
+
+.card {
+  height: 320px;
+  border: 1px solid red;
+  border-radius: 0.25rem;
+  box-shadow: -4px 8px 11px 0px black;
+  overflow: hidden;
+}
+
+.card-img-container {
+  height: 230px;
+}
+
+.card-img-container .card-img-top {
+  height: 100%;
+  object-fit: cover;
+  object-position: left;
+}
+
+.card-img-container:hover + .card-controls,
+.card-controls:hover {
+  margin-left: 0;
+}
+
+.card-controls {
+  position: absolute;
+  background-color:rgba(255, 255, 255, 0.5);
+  margin-left: -140px;
+  border-bottom-right-radius: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.card-body {
+  overflow: hidden;
+}
+
+.card .card-body .card-title {
+  font-size: 17px;
+}
+
+.fa {
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.fa-star {
+  color: rgb(231, 201, 28);
+}
+
+.fa-bookmark {
+  color: rgb(206, 89, 36);
+}
+
+.fa-dollar-active {
+  color: rgb(48, 180, 21);
+}

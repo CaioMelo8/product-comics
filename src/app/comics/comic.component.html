@@ -1,0 +1,9 @@
+<div class="container">
+  <app-product-list [title]="'Favorites'"></app-product-list>
+  <app-product-list
+    [title]="'All Comics'"
+    [products]="comics | filterByCategory: comicCategory.AVAILABLE"
+  ></app-product-list>
+
+  <button type="button" class="btn btn-primary" (click)="teste()">Teste</button>
+</div>
