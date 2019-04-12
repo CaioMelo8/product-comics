@@ -1,19 +1,18 @@
-import { Component, Input, Renderer2, Output, EventEmitter } from '@angular/core';
-import { Product } from './product';
-import { Category } from './category.enum';
-import { ComicService } from '../../comics/comic.service';
+import { Component, Input, Renderer2 } from '@angular/core';
+import { Product } from '../../product';
+import { ProductCategoryEnum } from '../../product-category.enum';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css'],
+  styleUrls: ['./product.component.css']
 })
 export class ProductComponent {
-  Category = Category;
+  Category = ProductCategoryEnum;
 
   @Input() product: Product;
 
-  constructor() {}
+  constructor(private renderer: Renderer2) {}
 
   onFavorite() {
     this.product.isFavorite = !this.product.isFavorite;

@@ -4,8 +4,9 @@ export class Product {
   id = '';
   title = '';
   description = '';
-  category = ProductCategoryEnum.AVAILABLE.valueOf();
+  category: ProductCategoryEnum = ProductCategoryEnum.AVAILABLE;
   isFavorite = false;
+  isOnSale = false;
   urls: [
     {
       type: string;
