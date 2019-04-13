@@ -4,12 +4,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { ProductsModule } from './products/products.module';
+import { ComicModule } from './comics/comic.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [AppRoutingModule, BrowserModule, BrowserAnimationsModule, CoreModule, ProductsModule],
+  imports: [AppRoutingModule, BrowserModule, BrowserAnimationsModule, ComicModule, CoreModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

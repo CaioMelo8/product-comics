@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { ProductStorageService } from '../core/product-storage/product-storage.service';
+import { ProductStorageService } from '../core/storage/product-storage.service';
 import { Product } from '../product-list/product/product';
 
 const API_URL = environment.API_ENDPOINT;

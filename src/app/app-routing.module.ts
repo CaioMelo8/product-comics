@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { FavoritesListResolver } from './products/favorites-list.resolver';
-import { ProductListResolver } from './products/product-list.resolver';
-import { ProductsComponent } from './products/products.component';
-import { ProductsModule } from './products/products.module';
+import { ComicListResolver } from './comics/comic-list.resolver';
+import { ComicComponent } from './comics/comic.component';
 
 const appRoutes: Route[] = [
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+  { path: '', redirectTo: 'comics', pathMatch: 'full' },
   {
-    path: 'products',
-    component: ProductsComponent,
-    resolve: { comics_all: ProductListResolver, comics_favorite: FavoritesListResolver }
-  }
+    path: 'comics',
+    component: ComicComponent,
+    resolve: { comics: ComicListResolver },
+  },
 ];
 
 @NgModule({
-  imports: [ProductsModule, RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(appRoutes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

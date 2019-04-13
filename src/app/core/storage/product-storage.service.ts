@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Product } from 'src/app/products/product';
+import { Product } from 'src/app/product-list/product/product';
 
 @Injectable({ providedIn: 'root' })
 export class ProductStorageService {
