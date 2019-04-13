@@ -19,6 +19,7 @@
     ],
     "paths": {
       "core-js/es7/reflect": ["./node_modules/core-js/proposals/reflect-metadata"],
-    }
+    },
+    "plugins": [{"name": "@angular/language-service"}]
   }
 }
