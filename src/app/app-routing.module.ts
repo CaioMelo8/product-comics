@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { ComicListResolver } from './comics/comic-list.resolver';
 import { ComicComponent } from './comics/comic.component';
 
 const appRoutes: Route[] = [
@@ -8,7 +7,6 @@ const appRoutes: Route[] = [
   {
     path: 'comics',
     component: ComicComponent,
-    resolve: { comics: ComicListResolver },
   },
 ];
 

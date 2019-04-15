@@ -1,9 +1,24 @@
 <div class="container">
   <app-product-list [title]="'Favorites'"></app-product-list>
+  <app-product-list [title]="'On Sale'"></app-product-list>
+
   <app-product-list
     [title]="'All Comics'"
+    *ngIf="(comics$ | async) as comics"
     [products]="comics | filterByCategory: comicCategory.AVAILABLE"
   ></app-product-list>
-
-  <button type="button" class="btn btn-primary" (click)="teste()">Teste</button>
+  <div class="row">
+    <div class="btn-group btn-group-toggle mx-auto my-4 ">
+      <label
+        class="btn btn-outline-danger page-navigation"
+        *ngFor="let i of pagesRange"
+        [routerLink]="['/comics']"
+        [queryParams]="{ page: i }"
+        routerLinkActive="active"
+      >
+        <input type="checkbox" checked />
+        {{ i }}
+      </label>
+    </div>
+  </div>
 </div>
