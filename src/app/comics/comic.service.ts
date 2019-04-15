@@ -82,4 +82,14 @@ export class ComicService {
         }),
       );
   }
+
+  addComic(...comics: Product[]) {
+    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+
+    if (cached_comics) {
+      comics.push(...cached_comics);
+    }
+
+    this.storageService.toLocalStorage(STORAGE_KEY_COMICS, comics);
+  }
 }

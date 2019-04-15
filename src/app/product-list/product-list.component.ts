@@ -7,6 +7,5 @@ import { Product } from './product/product';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent {
-  @Input() title: string;
   @Input() products: Product[];
 }

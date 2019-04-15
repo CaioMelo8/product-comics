@@ -16,6 +16,8 @@ export class ComicComponent {
 
   comicCategory = Category;
 
+  showModal = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -34,5 +36,11 @@ export class ComicComponent {
         this.currentPage = page;
       }
     });
+  }
+
+  focus(element: HTMLElement) {
+    element.setAttribute('style', 'display: block; background-color: rgba(0,0,0,0.4)');
+    element.classList.add('show');
+    element.focus();
   }
 }
