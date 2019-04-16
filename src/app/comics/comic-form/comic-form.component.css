@@ -1,3 +1,11 @@
+.close {
+  outline: none;
+}
+
+label {
+  user-select: none;
+}
+
 .invalid-input {
-  border: solid 1px red;
+  border: solid 1px #dc3545;
 }

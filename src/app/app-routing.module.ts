@@ -6,7 +6,6 @@ import { ComicFormComponent } from './comics/comic-form/comic-form.component';
 const appRoutes: Route[] = [
   { path: '', redirectTo: 'comics', pathMatch: 'full' },
   { path: 'comics', component: ComicComponent },
-  { path: 'comics/add', component: ComicFormComponent },
 ];
 
 @NgModule({

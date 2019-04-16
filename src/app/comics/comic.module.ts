@@ -9,16 +9,17 @@ import { FilterFavorites } from './filter-favorites.pipe';
 import { RouterModule } from '@angular/router';
 import { ComicFormComponent } from './comic-form/comic-form.component';
 import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
-import { VerticalModalModule } from '../shared/components/vertical-modal/vertical-modal.module';
+import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ComicComponent, ComicFormComponent, FilterByCategory, FilterFavorites],
+  entryComponents: [ComicFormComponent],
   imports: [
     CommonModule,
+    NgbModalModule,
+    ProductListModule,
     ReactiveFormsModule,
     RouterModule,
-    ProductListModule,
-    VerticalModalModule,
     VMessageModule,
   ],
   exports: [],

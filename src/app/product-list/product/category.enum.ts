@@ -1,5 +1,5 @@
 export enum Category {
-  AVAILABLE,
-  TOPURCHASE,
-  PURCHASED,
+  AVAILABLE = 'available',
+  TOPURCHASE = 'topurchase',
+  PURCHASED = 'purchased',
 }
