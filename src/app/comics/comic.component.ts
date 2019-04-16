@@ -14,7 +14,7 @@ import { ComicFormComponent } from './comic-form/comic-form.component';
 export class ComicComponent {
   comics$: Observable<Product[]>;
   currentPage: number;
-  pagesRange = Array.from({ length: 20 }, (value, key) => key + 1);
+  pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
 
   comicCategory = Category;
 
@@ -24,6 +24,7 @@ export class ComicComponent {
     private comicService: ComicService,
     private ngbModal: NgbModal
   ) {
+    console.log(this.pagesRange);
     this.route.queryParams.subscribe(params => {
       const page = +params['page'];
 
