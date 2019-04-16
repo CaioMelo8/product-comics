@@ -1,9 +1,11 @@
 import { Component, DoCheck, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, merge } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from '../product-list/product/category.enum';
 import { Product } from '../product-list/product/product';
 import { ComicService } from './comic.service';
-import { Observable, merge } from 'rxjs';
+import { ComicFormComponent } from './comic-form/comic-form.component';
 
 @Component({
   templateUrl: './comic.component.html',
@@ -20,6 +22,7 @@ export class ComicComponent {
     private route: ActivatedRoute,
     private router: Router,
     private comicService: ComicService,
+    private ngbModal: NgbModal
   ) {
     this.route.queryParams.subscribe(params => {
       const page = +params['page'];
@@ -33,6 +36,13 @@ export class ComicComponent {
         this.comics$ = this.comicService.listPaginated(page - 1);
         this.currentPage = page;
       }
+    });
+  }
+
+  openModal() {
+    this.ngbModal.open(ComicFormComponent, {
+      backdrop: 'static',
+      centered: true,
     });
   }
 }

@@ -5,6 +5,7 @@ import { map, tap, finalize } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ProductStorageService } from '../core/storage/product-storage.service';
 import { Product } from '../product-list/product/product';
+import { Category } from '../product-list/product/category.enum';
 
 const API_URL = environment.API_ENDPOINT;
 const DEFAULT_COMICS_PER_PAGE = 24;
@@ -16,7 +17,7 @@ const STORAGE_KEY_LAST_PAGE = 'last_page';
 export class ComicService {
   constructor(private http: HttpClient, private storageService: ProductStorageService) {}
 
-  private toProduct(object: Object) {
+  toComic(object: Object) {
     const product = new Product();
     const keys = Object.keys(product);
 
@@ -37,8 +38,8 @@ export class ComicService {
       .pipe(
         map((response: any) => {
           const comics = response.data.results;
-          return comics.map(comic => this.toProduct(comic));
-        }),
+          return comics.map(comic => this.toComic(comic));
+        })
       );
   }
 
@@ -71,15 +72,29 @@ export class ComicService {
         tap(results => {
           this.cacheFetchedComics(results);
           console.log(
-            'results for application page ' + lastFetchedPage + ' saved on local storage',
+            'results for application page ' + lastFetchedPage + ' saved on local storage'
           );
-        }),
+        })
       )
       .pipe(
         finalize(() => {
           lastFetchedPage++;
           window.localStorage.setItem(STORAGE_KEY_LAST_PAGE, lastFetchedPage.toString());
-        }),
+        })
       );
+  }
+
+  addComic(...comics: Product[]) {
+    if (!comics) {
+      return;
+    }
+
+    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+
+    if (cached_comics) {
+      comics.push(...cached_comics);
+    }
+
+    this.storageService.toLocalStorage(STORAGE_KEY_COMICS, comics);
   }
 }

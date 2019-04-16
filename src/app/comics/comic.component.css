@@ -1,6 +1,7 @@
 .container {
   margin: 1% auto;
   max-width: 95% !important;
+  min-height: 95%;
 }
 
 .page-navigation {

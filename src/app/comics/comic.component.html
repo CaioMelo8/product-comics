@@ -1,6 +1,7 @@
 <div class="container">
-  <app-product-list [title]="'Favorites'"></app-product-list>
-  <app-product-list [title]="'On Sale'"></app-product-list>
+  <button class="btn btn-danger p-2" type="button" (click)="openModal()">
+    <i class="fa fa-plus-circle"></i> Add new
+  </button>
 
   <app-product-list
     [title]="'All Comics'"
