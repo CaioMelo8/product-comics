@@ -1,12 +1,21 @@
 <div class="container">
-  <button class="btn btn-danger p-2" type="button" (click)="openModal()">
-    <i class="fa fa-plus-circle"></i> Add new
-  </button>
-
+  <div class="row py-3">
+    <h3>Favorites</h3>
+  </div>
+  <app-product-list
+    *ngIf="(favorites$ | async) as favorites"
+    [comics]="favorites"
+  ></app-product-list>
+  <div class="row py-3">
+    <h3 class="d-inline mr-3" style="vertical-align: middle">All Comics</h3>
+    <button class="btn btn-danger btn-small p-2" type="button" (click)="onAddComic()">
+      <i class="fa fa-plus-circle"></i> Add new
+    </button>
+  </div>
   <app-product-list
     [title]="'All Comics'"
     *ngIf="(comics$ | async) as comics"
-    [comics]="comics | filterByCategory: Category.AVAILABLE"
+    [comics]="comics"
   ></app-product-list>
   <div class="row">
     <div class="btn-group btn-group-toggle mx-auto my-4 ">
@@ -14,8 +23,8 @@
         class="btn btn-outline-danger page-navigation"
         *ngFor="let i of pagesRange"
         [routerLink]="['/comics']"
-        [queryParams]="{ page: i }"
         routerLinkActive="active"
+        [queryParams]="{ page: i }"
       >
         <input type="checkbox" checked />
         {{ i }}

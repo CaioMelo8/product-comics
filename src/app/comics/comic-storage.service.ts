@@ -10,4 +10,19 @@ export class ComicStorageService {
   toLocalStorage(key: string, value: any[]) {
     window.localStorage.setItem(key, JSON.stringify(value));
   }
+
+  updateComic(key: string, comic: Comic) {
+    const cached_comics = this.fromLocalStorage(key);
+    const index = cached_comics.findIndex(cached_comic => comic.title === cached_comic.title);
+
+    if (index !== -1) {
+      cached_comics[index] = comic;
+
+      this.toLocalStorage(key, cached_comics);
+
+      return true;
+    }
+
+    return false;
+  }
 }

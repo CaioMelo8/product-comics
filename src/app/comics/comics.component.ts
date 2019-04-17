@@ -13,6 +13,8 @@ import { ComicService } from './comic.service';
 })
 export class ComicsComponent {
   comics$: Observable<Comic[]>;
+  favorites$: Observable<Comic[]>;
+
   currentPage: number;
   pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
 
@@ -22,25 +24,31 @@ export class ComicsComponent {
     private route: ActivatedRoute,
     private router: Router,
     private comicService: ComicService,
-    private ngbModal: NgbModal
+    private modalService: NgbModal
   ) {
     this.route.queryParams.subscribe(params => {
-      const page = +params['page'];
+      this.currentPage = +params['page'];
 
-      if (!page || page < 1) {
+      if (!this.currentPage || this.currentPage < 1) {
         this.router.navigate(['/comics'], {
           queryParams: { page: 1 },
           queryParamsHandling: 'merge',
         });
       } else {
-        this.comics$ = this.comicService.listPaginated(page - 1);
-        this.currentPage = page;
+        this.comics$ = this.comicService.listAll(this.currentPage);
+        this.updateLists();
       }
     });
+
+    this.comicService.getUpdates().subscribe(() => this.updateLists());
   }
 
-  openModal() {
-    this.ngbModal.open(ComicFormComponent, {
+  updateLists() {
+    this.favorites$ = this.comicService.listFavorites(this.currentPage);
+  }
+
+  onAddComic() {
+    this.modalService.open(ComicFormComponent, {
       backdrop: 'static',
       centered: true,
     });
