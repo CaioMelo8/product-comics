@@ -1,22 +1,22 @@
 <div class="container">
-  <div class="row py-3">
-    <h3>Favorites</h3>
+  <div class="mb-3">
+    <div class="mb-3">
+      <h3>Comics on sale</h3>
+      <app-product-list *ngIf="(onSale$ | async) as onSale" [comics]="onSale"></app-product-list>
+    </div>
+    <h3>Your favorites</h3>
+    <app-product-list
+      *ngIf="(favorites$ | async) as favorites"
+      [comics]="favorites"
+    ></app-product-list>
   </div>
-  <app-product-list
-    *ngIf="(favorites$ | async) as favorites"
-    [comics]="favorites"
-  ></app-product-list>
-  <div class="row py-3">
-    <h3 class="d-inline mr-3" style="vertical-align: middle">All Comics</h3>
-    <button class="btn btn-danger btn-small p-2" type="button" (click)="onAddComic()">
-      <i class="fa fa-plus-circle"></i> Add new
+  <div class="mb-3">
+    <h3 class="d-inline mr-3" style="vertical-align: middle">All comics</h3>
+    <button class="btn btn-danger p-2" type="button" (click)="onAddComic()">
+      <i class="fa fa-plus-circle"></i> Add
     </button>
+    <app-product-list *ngIf="(comics$ | async) as comics" [comics]="comics"></app-product-list>
   </div>
-  <app-product-list
-    [title]="'All Comics'"
-    *ngIf="(comics$ | async) as comics"
-    [comics]="comics"
-  ></app-product-list>
   <div class="row">
     <div class="btn-group btn-group-toggle mx-auto my-4 ">
       <label

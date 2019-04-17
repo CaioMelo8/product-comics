@@ -14,6 +14,7 @@ import { ComicService } from './comic.service';
 export class ComicsComponent {
   comics$: Observable<Comic[]>;
   favorites$: Observable<Comic[]>;
+  onSale$: Observable<Comic[]>;
 
   currentPage: number;
   pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
@@ -35,7 +36,6 @@ export class ComicsComponent {
           queryParamsHandling: 'merge',
         });
       } else {
-        this.comics$ = this.comicService.listAll(this.currentPage);
         this.updateLists();
       }
     });
@@ -44,7 +44,9 @@ export class ComicsComponent {
   }
 
   updateLists() {
+    this.comics$ = this.comicService.listAll(this.currentPage);
     this.favorites$ = this.comicService.listFavorites(this.currentPage);
+    this.onSale$ = this.comicService.listOnSale(this.currentPage);
   }
 
   onAddComic() {
