@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Comic } from './comic/comic';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-comic-list',
   templateUrl: './comic-list.component.html',
   styleUrls: ['./comic-list.component.css'],
 })

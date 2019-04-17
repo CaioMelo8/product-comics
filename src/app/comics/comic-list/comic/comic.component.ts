@@ -6,7 +6,7 @@ import { Category } from './category.enum';
 import { Comic } from './comic';
 
 @Component({
-  selector: 'app-product',
+  selector: 'app-comic',
   templateUrl: './comic.component.html',
   styleUrls: ['./comic.component.css'],
 })
