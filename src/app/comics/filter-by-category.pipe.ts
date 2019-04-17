@@ -4,9 +4,9 @@ import { Comic } from './comic-list/comic/comic';
 
 @Pipe({ name: 'filterByCategory' })
 export class FilterByCategory implements PipeTransform {
-  transform(products: Comic[], category: Category) {
-    return products.filter(product => {
-      return product.category === category;
+  transform(comics: Comic[], category: Category) {
+    return comics.filter(comic => {
+      return comic.category === category;
     });
   }
 }

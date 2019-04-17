@@ -1,16 +1,13 @@
-<div class="card" [title]="product.title">
+<div class="card" [title]="comic.title">
   <div class="card-img-container">
     <img src="assets/imgs/MarvelLogo.svg" class="logo" alt="" />
-    <img
-      class="card-img-top"
-      [src]="product.thumbnail?.path + '.' + product.thumbnail?.extension"
-    />
+    <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />
   </div>
   <div class="card-controls pr-1 py-2 text-center">
     <i
       class="fa fa-2x px-2"
-      [class.fa-star]="product.isFavorite"
-      [class.fa-star-o]="!product.isFavorite"
+      [class.fa-star]="comic.isFavorite"
+      [class.fa-star-o]="!comic.isFavorite"
       [ngStyle]="{ style: expression }"
       (click)="onFavorite()"
       title="Add to Favorites"
@@ -18,15 +15,15 @@
     ></i>
     <i
       class="fa fa-2x px-2"
-      [class.fa-bookmark]="product.category === Category.TOPURCHASE"
-      [class.fa-bookmark-o]="product.category !== Category.TOPURCHASE"
+      [class.fa-bookmark]="comic.category === Category.TOPURCHASE"
+      [class.fa-bookmark-o]="comic.category !== Category.TOPURCHASE"
       (click)="onToPurchase()"
       title='Add to "To Purchase"'
       aria-hidden="true"
     ></i>
     <i
       class="fa fa-dollar fa-2x px-2"
-      [ngClass]="{ 'fa-dollar-active': product.category === Category.PURCHASED }"
+      [ngClass]="{ 'fa-dollar-active': comic.category === Category.PURCHASED }"
       (click)="onPurchased()"
       title="Add to Purchased"
       arial-hidden="true"
@@ -34,7 +31,7 @@
   </div>
   <div class="card-body px-2 py-3">
     <h2 class="card-title text-center">
-      {{ product.title }}
+      {{ comic.title }}
     </h2>
   </div>
 </div>

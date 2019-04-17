@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { ComicStorageService } from './comic-storage.service';
 import { Comic } from './comic-list/comic/comic';
+import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
 const DEFAULT_COMICS_PER_PAGE = 24;
@@ -17,16 +17,16 @@ export class ComicService {
   constructor(private http: HttpClient, private storageService: ComicStorageService) {}
 
   toComic(object: Object) {
-    const product = new Comic();
-    const keys = Object.keys(product);
+    const comic = new Comic();
+    const keys = Object.keys(comic);
 
     keys.forEach(key => {
       if (key in object) {
-        product[key] = object[key];
+        comic[key] = object[key];
       }
     });
 
-    return product;
+    return comic;
   }
 
   private fetchComics(offset: number = 0, limit: number = DEFAULT_COMICS_PER_PAGE) {

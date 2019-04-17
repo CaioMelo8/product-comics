@@ -7,5 +7,5 @@ import { Comic } from './comic/comic';
   styleUrls: ['./comic-list.component.css'],
 })
 export class ComicListComponent {
-  @Input() products: Comic[];
+  @Input() comics: Comic[];
 }

@@ -24,7 +24,6 @@ export class ComicComponent {
     private comicService: ComicService,
     private ngbModal: NgbModal
   ) {
-    console.log(this.pagesRange);
     this.route.queryParams.subscribe(params => {
       const page = +params['page'];
 

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ComicService } from '../../comic.service';
 import { Category } from './category.enum';
 import { Comic } from './comic';
 
@@ -10,24 +11,24 @@ import { Comic } from './comic';
 export class ComicComponent {
   Category = Category;
 
-  @Input() product: Comic;
+  @Input() comic: Comic;
 
-  constructor() {}
+  constructor(private comicService: ComicService) {}
 
   onFavorite() {
-    this.product.isFavorite = !this.product.isFavorite;
+    this.comic.isFavorite = !this.comic.isFavorite;
   }
 
   onToPurchase(element: HTMLElement) {
-    this.product.category =
-      this.product.category === this.Category.TOPURCHASE
+    this.comic.category =
+      this.comic.category === this.Category.TOPURCHASE
         ? this.Category.AVAILABLE
         : this.Category.TOPURCHASE;
   }
 
   onPurchased() {
-    this.product.category =
-      this.product.category === this.Category.PURCHASED
+    this.comic.category =
+      this.comic.category === this.Category.PURCHASED
         ? this.Category.AVAILABLE
         : this.Category.PURCHASED;
   }
