@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Comic } from './comic-list/comic/comic';
@@ -8,12 +8,15 @@ import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
 const DEFAULT_COMICS_PER_PAGE = 24;
+const DEFAULT_FAVORITES_PER_PAGE = 12;
 
 const STORAGE_KEY_COMICS = 'comics';
 const STORAGE_KEY_LAST_PAGE = 'last_page';
 
 @Injectable()
 export class ComicService {
+  updateSubject = new Subject();
+
   constructor(private http: HttpClient, private storageService: ComicStorageService) {}
 
   toComic(object: Object) {
@@ -53,8 +56,12 @@ export class ComicService {
     }
   }
 
-  listPaginated(page: number) {
-    const offset = page * DEFAULT_COMICS_PER_PAGE;
+  getUpdates() {
+    return this.updateSubject.asObservable();
+  }
+
+  listAll(page: number) {
+    const offset = (page - 1) * DEFAULT_COMICS_PER_PAGE;
     const cached_results = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
     if (cached_results && cached_results.length > offset) {
@@ -83,6 +90,19 @@ export class ComicService {
       );
   }
 
+  listFavorites(page: number) {
+    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+    const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
+
+    let favoriteCount = 0;
+
+    return of(
+      cached_comics
+        .splice(offset)
+        .filter(comic => comic.isFavorite && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+    ).pipe(tap(comics => console.log(comics)));
+  }
+
   addComic(...comics: Comic[]) {
     if (!comics) {
       return;
@@ -95,5 +115,15 @@ export class ComicService {
     }
 
     this.storageService.toLocalStorage(STORAGE_KEY_COMICS, comics);
+  }
+
+  updateComic(comic: Comic) {
+    if (!comic) {
+      return;
+    }
+
+    if (this.storageService.updateComic(STORAGE_KEY_COMICS, comic)) {
+      this.updateSubject.next();
+    }
   }
 }

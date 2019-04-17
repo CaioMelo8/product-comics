@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { ComicService } from '../../comic.service';
 import { Category } from './category.enum';
 import { Comic } from './comic';
@@ -8,28 +10,37 @@ import { Comic } from './comic';
   templateUrl: './comic.component.html',
   styleUrls: ['./comic.component.css'],
 })
-export class ComicComponent {
-  Category = Category;
-
+export class ComicComponent implements OnInit {
   @Input() comic: Comic;
+
+  updateDebounce = new Subject();
+
+  Category = Category;
 
   constructor(private comicService: ComicService) {}
 
-  onFavorite() {
-    this.comic.isFavorite = !this.comic.isFavorite;
+  ngOnInit() {
+    this.updateDebounce.pipe(debounceTime(400)).subscribe(() => {
+      this.comicService.updateComic(this.comic);
+    });
   }
 
-  onToPurchase(element: HTMLElement) {
+  onFavorite() {
+    this.comic.isFavorite = !this.comic.isFavorite;
+    this.updateDebounce.next();
+  }
+
+  onToPurchase() {
     this.comic.category =
-      this.comic.category === this.Category.TOPURCHASE
-        ? this.Category.AVAILABLE
-        : this.Category.TOPURCHASE;
+      this.comic.category === Category.TOPURCHASE ? Category.AVAILABLE : Category.TOPURCHASE;
+
+    this.updateDebounce.next();
   }
 
   onPurchased() {
     this.comic.category =
-      this.comic.category === this.Category.PURCHASED
-        ? this.Category.AVAILABLE
-        : this.Category.PURCHASED;
+      this.comic.category === Category.PURCHASED ? Category.AVAILABLE : Category.PURCHASED;
+
+    this.updateDebounce.next();
   }
 }
