@@ -1,6 +1,6 @@
 import { Category } from './category.enum';
 
-export class Product {
+export class Comic {
   constructor(
     public title = '',
     public description = '',
@@ -11,6 +11,6 @@ export class Product {
       extension: 'jpg',
     },
     public isFavorite = false,
-    public isOnSale = false,
+    public isOnSale = false
   ) {}
 }

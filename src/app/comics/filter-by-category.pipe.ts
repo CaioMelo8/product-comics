@@ -1,10 +1,10 @@
-import { PipeTransform, Pipe } from '@angular/core';
-import { Product } from '../product-list/product/product';
-import { Category } from '../product-list/product/category.enum';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Category } from './comic-list/comic/category.enum';
+import { Comic } from './comic-list/comic/comic';
 
 @Pipe({ name: 'filterByCategory' })
 export class FilterByCategory implements PipeTransform {
-  transform(products: Product[], category: Category) {
+  transform(products: Comic[], category: Category) {
     return products.filter(product => {
       return product.category === category;
     });

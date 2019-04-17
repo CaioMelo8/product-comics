@@ -1,10 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Category } from 'src/app/product-list/product/category.enum';
-import { Product } from 'src/app/product-list/product/product';
-import { ComicService } from '../comic.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Category } from '../comic-list/comic/category.enum';
+import { ComicService } from '../comic.service';
 
 @Component({
   templateUrl: './comic-form.component.html',

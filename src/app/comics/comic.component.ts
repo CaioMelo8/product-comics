@@ -1,18 +1,18 @@
-import { Component, DoCheck, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, merge } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Category } from '../product-list/product/category.enum';
-import { Product } from '../product-list/product/product';
-import { ComicService } from './comic.service';
+import { Observable } from 'rxjs';
 import { ComicFormComponent } from './comic-form/comic-form.component';
+import { Category } from './comic-list/comic/category.enum';
+import { Comic } from './comic-list/comic/comic';
+import { ComicService } from './comic.service';
 
 @Component({
   templateUrl: './comic.component.html',
   styleUrls: ['./comic.component.css'],
 })
 export class ComicComponent {
-  comics$: Observable<Product[]>;
+  comics$: Observable<Comic[]>;
   currentPage: number;
   pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
 

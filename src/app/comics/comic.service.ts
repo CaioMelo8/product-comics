@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { map, tap, finalize } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { ProductStorageService } from '../core/storage/product-storage.service';
-import { Product } from '../product-list/product/product';
-import { Category } from '../product-list/product/category.enum';
+import { ComicStorageService } from './comic-storage.service';
+import { Comic } from './comic-list/comic/comic';
 
 const API_URL = environment.API_ENDPOINT;
 const DEFAULT_COMICS_PER_PAGE = 24;
@@ -15,10 +14,10 @@ const STORAGE_KEY_LAST_PAGE = 'last_page';
 
 @Injectable()
 export class ComicService {
-  constructor(private http: HttpClient, private storageService: ProductStorageService) {}
+  constructor(private http: HttpClient, private storageService: ComicStorageService) {}
 
   toComic(object: Object) {
-    const product = new Product();
+    const product = new Comic();
     const keys = Object.keys(product);
 
     keys.forEach(key => {
@@ -32,7 +31,7 @@ export class ComicService {
 
   private fetchComics(offset: number = 0, limit: number = DEFAULT_COMICS_PER_PAGE) {
     return this.http
-      .get<Product[]>(API_URL + 'public/comics', {
+      .get<Comic[]>(API_URL + 'public/comics', {
         params: { offset: offset.toString(), limit: limit.toString() },
       })
       .pipe(
@@ -43,7 +42,7 @@ export class ComicService {
       );
   }
 
-  private cacheFetchedComics(comics: Product[]) {
+  private cacheFetchedComics(comics: Comic[]) {
     const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
     if (cached_comics) {
@@ -84,7 +83,7 @@ export class ComicService {
       );
   }
 
-  addComic(...comics: Product[]) {
+  addComic(...comics: Comic[]) {
     if (!comics) {
       return;
     }

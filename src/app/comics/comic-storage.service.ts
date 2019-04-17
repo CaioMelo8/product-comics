@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Product } from 'src/app/product-list/product/product';
+import { Comic } from 'src/app/comics/comic-list/comic/comic';
 
-@Injectable({ providedIn: 'root' })
-export class ProductStorageService {
-  fromLocalStorage(key: string): Product[] {
+@Injectable()
+export class ComicStorageService {
+  fromLocalStorage(key: string): Comic[] {
     return JSON.parse(window.localStorage.getItem(key));
   }
 

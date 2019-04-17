@@ -1,9 +1,9 @@
-import { PipeTransform, Pipe } from '@angular/core';
-import { Product } from '../product-list/product/product';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Comic } from './comic-list/comic/comic';
 
 @Pipe({ name: 'filterFavorites' })
 export class FilterFavorites implements PipeTransform {
-  transform(products: Product[]) {
+  transform(products: Comic[]) {
     return products.filter(product => {
       return product.isFavorite;
     });

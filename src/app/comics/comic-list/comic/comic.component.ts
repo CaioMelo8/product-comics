@@ -1,17 +1,16 @@
-import { Component, Input, Renderer2, Output, EventEmitter } from '@angular/core';
-import { Product } from './product';
+import { Component, Input } from '@angular/core';
 import { Category } from './category.enum';
-import { ComicService } from '../../comics/comic.service';
+import { Comic } from './comic';
 
 @Component({
   selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css'],
+  templateUrl: './comic.component.html',
+  styleUrls: ['./comic.component.css'],
 })
-export class ProductComponent {
+export class ComicComponent {
   Category = Category;
 
-  @Input() product: Product;
+  @Input() product: Comic;
 
   constructor() {}
 
