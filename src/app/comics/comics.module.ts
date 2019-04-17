@@ -7,13 +7,13 @@ import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
 import { ComicFormComponent } from './comic-form/comic-form.component';
 import { ComicListModule } from './comic-list/comic-list.module';
 import { ComicStorageService } from './comic-storage.service';
-import { ComicComponent } from './comic.component';
 import { ComicService } from './comic.service';
+import { ComicsComponent } from './comics.component';
 import { FilterByCategory } from './filter-by-category.pipe';
 import { FilterFavorites } from './filter-favorites.pipe';
 
 @NgModule({
-  declarations: [ComicComponent, ComicFormComponent, FilterByCategory, FilterFavorites],
+  declarations: [ComicsComponent, ComicFormComponent, FilterByCategory, FilterFavorites],
   entryComponents: [ComicFormComponent],
   imports: [
     ComicListModule,

@@ -6,7 +6,7 @@
   <app-product-list
     [title]="'All Comics'"
     *ngIf="(comics$ | async) as comics"
-    [comics]="comics | filterByCategory: comicCategory.AVAILABLE"
+    [comics]="comics | filterByCategory: Category.AVAILABLE"
   ></app-product-list>
   <div class="row">
     <div class="btn-group btn-group-toggle mx-auto my-4 ">

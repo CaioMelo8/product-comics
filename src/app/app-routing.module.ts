@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { ComicComponent } from './comics/comic.component';
-import { ComicFormComponent } from './comics/comic-form/comic-form.component';
+import { ComicsComponent } from './comics/comics.component';
 
 const appRoutes: Route[] = [
   { path: '', redirectTo: 'comics', pathMatch: 'full' },
-  { path: 'comics', component: ComicComponent },
+  { path: 'comics', component: ComicsComponent },
 ];
 
 @NgModule({

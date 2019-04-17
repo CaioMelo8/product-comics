@@ -8,15 +8,15 @@ import { Comic } from './comic-list/comic/comic';
 import { ComicService } from './comic.service';
 
 @Component({
-  templateUrl: './comic.component.html',
-  styleUrls: ['./comic.component.css'],
+  templateUrl: './comics.component.html',
+  styleUrls: ['./comics.component.css'],
 })
-export class ComicComponent {
+export class ComicsComponent {
   comics$: Observable<Comic[]>;
   currentPage: number;
   pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
 
-  comicCategory = Category;
+  Category = Category;
 
   constructor(
     private route: ActivatedRoute,
