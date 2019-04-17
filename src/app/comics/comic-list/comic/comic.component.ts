@@ -30,17 +30,8 @@ export class ComicComponent implements OnInit {
     this.updateDebounce.next();
   }
 
-  onToPurchase() {
-    this.comic.category =
-      this.comic.category === Category.TOPURCHASE ? Category.AVAILABLE : Category.TOPURCHASE;
-
-    this.updateDebounce.next();
-  }
-
-  onPurchased() {
-    this.comic.category =
-      this.comic.category === Category.PURCHASED ? Category.AVAILABLE : Category.PURCHASED;
-
+  onSale() {
+    this.comic.isOnSale = !this.comic.isOnSale;
     this.updateDebounce.next();
   }
 }

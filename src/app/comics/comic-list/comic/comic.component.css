@@ -1,8 +1,9 @@
-.logo {
+.on-sale-icon {
   position: absolute;
-  width: 60px;
-  right: 10px;
-  top: 13px;
+  width: 110px;
+  right: -20px;
+  top: 0px;
+  transform: rotate(23deg);
 }
 
 .card {

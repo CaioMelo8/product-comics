@@ -1,6 +1,6 @@
 <div class="card" [title]="comic.title">
   <div class="card-img-container">
-    <img src="assets/imgs/MarvelLogo.svg" class="logo" alt="" />
+    <img src="assets/imgs/on-sale.png" class="on-sale-icon" *ngIf="comic.isOnSale" />
     <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />
   </div>
   <div class="card-controls pr-1 py-2 text-center">
@@ -14,18 +14,10 @@
       aria-hidden="true"
     ></i>
     <i
-      class="fa fa-2x px-2"
-      [class.fa-bookmark]="comic.category === Category.TOPURCHASE"
-      [class.fa-bookmark-o]="comic.category !== Category.TOPURCHASE"
-      (click)="onToPurchase()"
-      title='Add to "To Purchase"'
-      aria-hidden="true"
-    ></i>
-    <i
       class="fa fa-dollar fa-2x px-2"
-      [ngClass]="{ 'fa-dollar-active': comic.category === Category.PURCHASED }"
-      (click)="onPurchased()"
-      title="Add to Purchased"
+      [class.fa-dollar-active]="comic.isOnSale"
+      (click)="onSale()"
+      title='Add to "On Sale"'
       arial-hidden="true"
     ></i>
   </div>

@@ -90,7 +90,7 @@ export class ComicService {
       );
   }
 
-  listFavorites(page: number) {
+  private listByKey(page: number, key: string) {
     const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
     const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
 
@@ -99,8 +99,16 @@ export class ComicService {
     return of(
       cached_comics
         .splice(offset)
-        .filter(comic => comic.isFavorite && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
-    ).pipe(tap(comics => console.log(comics)));
+        .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+    );
+  }
+
+  listFavorites(page: number) {
+    return this.listByKey(page, 'isFavorite');
+  }
+
+  listOnSale(page: number) {
+    return this.listByKey(page, 'isOnSale');
   }
 
   addComic(...comics: Comic[]) {
