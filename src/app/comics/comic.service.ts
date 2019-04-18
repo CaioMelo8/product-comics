@@ -7,8 +7,8 @@ import { Comic } from './comic-list/comic/comic';
 import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
-const DEFAULT_COMICS_PER_PAGE = 24;
-const DEFAULT_FAVORITES_PER_PAGE = 12;
+const DEFAULT_COMICS_PER_PAGE = 28;
+const DEFAULT_FAVORITES_PER_PAGE = 14;
 
 const STORAGE_KEY_COMICS = 'comics';
 const STORAGE_KEY_LAST_PAGE = 'next_page';
@@ -70,7 +70,7 @@ export class ComicService {
       );
     }
 
-    return of(null);
+    return of([]);
   }
 
   getUpdates() {

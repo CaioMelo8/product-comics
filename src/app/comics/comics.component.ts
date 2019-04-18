@@ -57,8 +57,4 @@ export class ComicsComponent {
       centered: true,
     });
   }
-
-  teste(query: any) {
-    console.log(query);
-  }
 }

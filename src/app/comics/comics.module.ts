@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchModule } from '../shared/components/search/search.module';
+import { SpinnerModule } from '../shared/components/spinner/spinner.module';
 import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
 import { ComicFormComponent } from './comic-form/comic-form.component';
 import { ComicListModule } from './comic-list/comic-list.module';
@@ -23,6 +24,7 @@ import { FilterSearch } from './filter-search.pipe';
     ReactiveFormsModule,
     RouterModule,
     SearchModule,
+    SpinnerModule,
     VMessageModule,
   ],
   exports: [],
