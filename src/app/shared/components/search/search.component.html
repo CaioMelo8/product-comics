@@ -1,0 +1,14 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+    <div class="input-group-text">
+      <i class="fa fa-search"></i>
+    </div>
+  </div>
+  <input
+    type="search"
+    placeholder="Search..."
+    class="form-control"
+    (search)="onSearch($event.target.value)"
+    (keyup)="onSearch($event.target.value)"
+  />
+</div>

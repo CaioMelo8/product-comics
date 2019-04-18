@@ -1,18 +1,45 @@
 <div class="container">
-  <div class="mb-3">
-    <div class="mb-3">
+  <div class="row">
+    <div class="col-12">
       <h3>Comics on sale</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
       <app-comic-list *ngIf="(onSale$ | async) as onSale" [comics]="onSale"></app-comic-list>
     </div>
-    <h3>Your favorites</h3>
-    <app-comic-list *ngIf="(favorites$ | async) as favorites" [comics]="favorites"></app-comic-list>
   </div>
-  <div class="mb-3">
-    <h3 class="d-inline mr-3" style="vertical-align: middle">All comics</h3>
-    <button class="btn btn-danger p-2" type="button" (click)="onAddComic()">
-      <i class="fa fa-plus-circle"></i> Add
-    </button>
-    <app-comic-list *ngIf="(comics$ | async) as comics" [comics]="comics"></app-comic-list>
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3>Your favorites</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <app-comic-list
+        *ngIf="(favorites$ | async) as favorites"
+        [comics]="favorites"
+      ></app-comic-list>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 my-1">
+      <h3 class="d-inline mr-3" style="vertical-align: middle">All comics</h3>
+      <button class="btn btn-danger p-2" type="button" (click)="onAddComic()">
+        <i class="fa fa-plus-circle"></i> Add
+      </button>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-5 col-xl-4 my-1">
+      <app-search (search)="searchQuery = $event"></app-search>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <app-comic-list
+        *ngIf="(comics$ | async) as comics"
+        [comics]="comics | filterSearch: searchQuery"
+      ></app-comic-list>
+    </div>
   </div>
   <div class="row">
     <div class="btn-group btn-group-toggle mx-auto my-4 ">
