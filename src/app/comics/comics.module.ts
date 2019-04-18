@@ -10,10 +10,9 @@ import { ComicStorageService } from './comic-storage.service';
 import { ComicService } from './comic.service';
 import { ComicsComponent } from './comics.component';
 import { FilterByCategory } from './filter-by-category.pipe';
-import { FilterFavorites } from './filter-favorites.pipe';
 
 @NgModule({
-  declarations: [ComicsComponent, ComicFormComponent, FilterByCategory, FilterFavorites],
+  declarations: [ComicsComponent, ComicFormComponent, FilterByCategory],
   entryComponents: [ComicFormComponent],
   imports: [
     ComicListModule,

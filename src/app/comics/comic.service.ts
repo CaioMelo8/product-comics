@@ -60,13 +60,17 @@ export class ComicService {
     const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
     const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
-    let favoriteCount = 0;
+    if (cached_comics) {
+      let favoriteCount = 0;
 
-    return of(
-      cached_comics
-        .splice(offset)
-        .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
-    );
+      return of(
+        cached_comics
+          .splice(offset)
+          .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+      );
+    }
+
+    return of(null);
   }
 
   getUpdates() {
