@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, Subject } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Comic } from './comic-list/comic/comic';
 import { ComicStorageService } from './comic-storage.service';
@@ -11,7 +11,7 @@ const DEFAULT_COMICS_PER_PAGE = 24;
 const DEFAULT_FAVORITES_PER_PAGE = 12;
 
 const STORAGE_KEY_COMICS = 'comics';
-const STORAGE_KEY_LAST_PAGE = 'last_page';
+const STORAGE_KEY_LAST_PAGE = 'next_page';
 
 @Injectable()
 export class ComicService {
@@ -56,6 +56,19 @@ export class ComicService {
     }
   }
 
+  private listByKey(page: number, key: string) {
+    const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
+    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+
+    let favoriteCount = 0;
+
+    return of(
+      cached_comics
+        .splice(offset)
+        .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+    );
+  }
+
   getUpdates() {
     return this.updateSubject.asObservable();
   }
@@ -71,35 +84,17 @@ export class ComicService {
 
     console.log('fetching data from API');
 
-    let lastFetchedPage = +window.localStorage.getItem(STORAGE_KEY_LAST_PAGE);
+    let nextPage = +window.localStorage.getItem(STORAGE_KEY_LAST_PAGE);
 
-    return this.fetchComics(lastFetchedPage)
-      .pipe(
-        tap(results => {
-          this.cacheFetchedComics(results);
-          console.log(
-            'results for application page ' + lastFetchedPage + ' saved on local storage'
-          );
-        })
-      )
-      .pipe(
-        finalize(() => {
-          lastFetchedPage++;
-          window.localStorage.setItem(STORAGE_KEY_LAST_PAGE, lastFetchedPage.toString());
-        })
-      );
-  }
+    return this.fetchComics(nextPage).pipe(
+      tap(results => {
+        this.cacheFetchedComics(results);
 
-  private listByKey(page: number, key: string) {
-    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
-    const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
+        console.log('results for page ' + page + ' saved on local storage');
 
-    let favoriteCount = 0;
-
-    return of(
-      cached_comics
-        .splice(offset)
-        .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+        nextPage++;
+        window.localStorage.setItem(STORAGE_KEY_LAST_PAGE, nextPage.toString());
+      })
     );
   }
 
