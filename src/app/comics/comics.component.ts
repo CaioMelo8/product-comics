@@ -16,6 +16,8 @@ export class ComicsComponent {
   favorites$: Observable<Comic[]>;
   onSale$: Observable<Comic[]>;
 
+  searchQuery = '';
+
   currentPage: number;
   pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
 
@@ -54,5 +56,9 @@ export class ComicsComponent {
       backdrop: 'static',
       centered: true,
     });
+  }
+
+  teste(query: any) {
+    console.log(query);
   }
 }
