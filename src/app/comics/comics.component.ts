@@ -11,12 +11,13 @@ import { ComicService } from './comic.service';
   styleUrls: ['./comics.component.css'],
 })
 export class ComicsComponent {
-  comics: Comic[];
+  comics: Comic[] = [];
   favorites$: Observable<Comic[]>;
   onSale$: Observable<Comic[]>;
 
   searchQuery = '';
-  currentPage = 1;
+  currentPage = 0;
+  isLoadingMore = true;
 
   Category = Category;
 
@@ -28,9 +29,7 @@ export class ComicsComponent {
 
   updateLists(update: { type: string; comic: Comic[] }) {
     if (!update) {
-      this.comicService
-        .listAll(this.currentPage)
-        .subscribe((comics: Comic[]) => (this.comics = comics));
+      this.loadMore();
     } else if (update.type === 'add') {
       this.comics = update.comic.concat(this.comics);
     }
@@ -47,8 +46,11 @@ export class ComicsComponent {
   }
 
   loadMore() {
-    this.comicService
-      .listAll(++this.currentPage)
-      .subscribe((comics: Comic[]) => this.comics.push(...comics));
+    this.isLoadingMore = true;
+
+    this.comicService.listAll(++this.currentPage).subscribe((comics: Comic[]) => {
+      this.comics.push(...comics);
+      this.isLoadingMore = false;
+    });
   }
 }

@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Comic } from './comic-list/comic/comic';
 import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
-const DEFAULT_COMICS_PER_PAGE = 28;
-const DEFAULT_FAVORITES_PER_PAGE = 14;
+const DEFAULT_COMICS_PER_PAGE = 30;
+const DEFAULT_FAVORITES_PER_PAGE = 10;
 
 const STORAGE_KEY_COMICS = 'comics';
 const STORAGE_KEY_LAST_PAGE = 'last_page';
@@ -41,7 +41,7 @@ export class ComicService {
         map((response: any) => {
           const comics = response.data.results;
           return comics.map(comic => this.toComic(comic));
-        }),
+        })
       );
   }
 
@@ -68,7 +68,7 @@ export class ComicService {
       return of(
         cached_comics
           .splice(offset)
-          .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE),
+          .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
       );
     }
 
@@ -99,7 +99,7 @@ export class ComicService {
             this.cacheFetchedComics(results);
             window.localStorage.setItem(STORAGE_KEY_LAST_PAGE, page.toString());
             console.log('page ' + page + ' saved on local storage');
-          }),
+          })
         )
         .pipe(switchMap(() => this.listAll(page)));
     } else {
