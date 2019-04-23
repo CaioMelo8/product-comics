@@ -3,9 +3,9 @@
     <img src="assets/imgs/on-sale.png" class="on-sale-icon" *ngIf="comic.isOnSale" />
     <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />
   </div>
-  <div class="card-controls pr-1 py-2 text-center">
+  <div class="card-control card-control-toggler pr-2 pb-1">
     <i
-      class="fa fa-2x px-2"
+      class="fa m-1"
       [class.fa-star]="comic.isFavorite"
       [class.fa-star-o]="!comic.isFavorite"
       [ngStyle]="{ style: expression }"
@@ -14,12 +14,18 @@
       aria-hidden="true"
     ></i>
     <i
-      class="fa fa-dollar fa-2x px-2"
+      class="fa fa-dollar m-1"
       [class.fa-dollar-active]="comic.isOnSale"
       (click)="onSale()"
       title='Add to "On Sale"'
       arial-hidden="true"
     ></i>
+  </div>
+  <div class="card-control card-control-list">
+    <ul class="list-unstyled text-right m-0">
+      <li class="to-purchase">To purchase <i class="fa fa-check"></i></li>
+      <li class="purchased">Purchased <i class="fa fa-check-circle"></i></li>
+    </ul>
   </div>
   <div class="card-body px-2 py-3">
     <h2 class="card-title text-center">
