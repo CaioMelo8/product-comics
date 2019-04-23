@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { ComicFormComponent } from './comic-form/comic-form.component';
@@ -12,41 +11,29 @@ import { ComicService } from './comic.service';
   styleUrls: ['./comics.component.css'],
 })
 export class ComicsComponent {
-  comics$: Observable<Comic[]>;
+  comics: Comic[] = [];
   favorites$: Observable<Comic[]>;
   onSale$: Observable<Comic[]>;
 
   searchQuery = '';
-
-  currentPage: number;
-  pagesRange = new Array(10).fill(undefined).map((value, index) => 1 + index);
+  currentPage = 0;
+  isLoadingMore = true;
 
   Category = Category;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private comicService: ComicService,
-    private modalService: NgbModal
-  ) {
-    this.route.queryParams.subscribe(params => {
-      this.currentPage = +params['page'];
-
-      if (!this.currentPage || this.currentPage < 1) {
-        this.router.navigate(['/comics'], {
-          queryParams: { page: 1 },
-          queryParamsHandling: 'merge',
-        });
-      } else {
-        this.updateLists();
-      }
-    });
-
-    this.comicService.getUpdates().subscribe(() => this.updateLists());
+  constructor(private comicService: ComicService, private modalService: NgbModal) {
+    this.comicService
+      .getUpdates()
+      .subscribe((update: { type: string; comic: Comic[] }) => this.updateLists(update));
   }
 
-  updateLists() {
-    this.comics$ = this.comicService.listAll(this.currentPage);
+  updateLists(update: { type: string; comic: Comic[] }) {
+    if (!update) {
+      this.loadMore();
+    } else if (update.type === 'add') {
+      this.comics = update.comic.concat(this.comics);
+    }
+
     this.favorites$ = this.comicService.listFavorites(this.currentPage);
     this.onSale$ = this.comicService.listOnSale(this.currentPage);
   }
@@ -55,6 +42,15 @@ export class ComicsComponent {
     this.modalService.open(ComicFormComponent, {
       backdrop: 'static',
       centered: true,
+    });
+  }
+
+  loadMore() {
+    this.isLoadingMore = true;
+
+    this.comicService.listAll(++this.currentPage).subscribe((comics: Comic[]) => {
+      this.comics.push(...comics);
+      this.isLoadingMore = false;
     });
   }
 }

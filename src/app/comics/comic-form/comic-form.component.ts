@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from '../comic-list/comic/category.enum';
 import { ComicService } from '../comic.service';
@@ -15,9 +14,8 @@ export class ComicFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private comicService: ComicService,
-    public activeModal: NgbActiveModal
+    public modalService: NgbActiveModal,
   ) {}
 
   ngOnInit() {
@@ -35,7 +33,6 @@ export class ComicFormComponent implements OnInit {
     const newComic = this.comicService.toComic(formData);
 
     this.comicService.addComic(newComic);
-    this.activeModal.dismiss('Submit');
-    this.router.navigate(['/comics']);
+    this.modalService.dismiss('Submit');
   }
 }

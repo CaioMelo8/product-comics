@@ -11,4 +11,7 @@
     (search)="onSearch($event.target.value)"
     (keyup)="onSearch($event.target.value)"
   />
+  <div *ngIf="isLoading" class="my-1 ml-2 p-0 text-muted">
+    <app-spinner></app-spinner>
+  </div>
 </div>

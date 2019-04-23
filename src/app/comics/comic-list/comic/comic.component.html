@@ -1,4 +1,4 @@
-<div class="card" [title]="comic.title">
+<div class="card m-auto" [title]="comic.title">
   <div class="card-img-container">
     <img src="assets/imgs/on-sale.png" class="on-sale-icon" *ngIf="comic.isOnSale" />
     <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />

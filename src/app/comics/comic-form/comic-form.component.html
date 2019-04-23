@@ -1,6 +1,6 @@
 <header class="modal-header">
   <h5 class="modal-title">New Comic</h5>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Close')">
+  <button type="button" class="close" aria-label="Close" (click)="modalService.dismiss('Close')">
     <span aria-hidden="true">&times;</span>
   </button>
 </header>
@@ -71,7 +71,7 @@
           <button
             type="button"
             class="btn btn-secondary btn-block"
-            (click)="activeModal.close('Cancel')"
+            (click)="modalService.close('Cancel')"
           >
             Cancel
           </button>
