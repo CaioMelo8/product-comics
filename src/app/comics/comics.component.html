@@ -37,32 +37,21 @@
       <app-search (search)="searchQuery = $event"></app-search>
     </div>
   </div>
-  <div class="container my-3">
-    <div class="row p-1">
-      <div class="col-auto btn-group btn-group-toggle m-auto">
-        <label
-          class="btn btn-outline-danger page-navigation"
-          *ngFor="let i of pagesRange"
-          [routerLink]="['/comics']"
-          routerLinkActive="active"
-          [queryParams]="{ page: i }"
-        >
-          <input type="checkbox" checked />
-          {{ i }}
-        </label>
-      </div>
-    </div>
-    <div class="row p-1">
-      <div class="col-4 m-auto">
-        <button class="btn btn-danger btn-block p-2" type="button" (click)="onAddComic()">
-          <i class="fa fa-plus-circle"></i> Add
-        </button>
-      </div>
+  <div class="row p-1">
+    <div class="col-3 m-auto">
+      <button class="btn btn-danger btn-block p-2" type="button" (click)="onAddComic()">
+        <i class="fa fa-plus-circle"></i> Add
+      </button>
     </div>
   </div>
-  <div class="row" *ngIf="(comics$ | async) as comics; else loading">
+  <div class="row" *ngIf="comics && comics.length > 0; else loading">
     <div class="col-12 text-center">
       <app-comic-list [comics]="comics | filterSearch: searchQuery"></app-comic-list>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-auto m-auto">
+      <button class="btn btn-secondary" type="button" (click)="loadMore()">Load more...</button>
     </div>
   </div>
 </div>
