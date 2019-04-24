@@ -1,20 +1,19 @@
-.on-sale-icon {
-  position: absolute;
-  width: 100px;
-  right: -20px;
-  top: -3px;
-  transform: rotate(23deg);
-}
-
 .card {
+  --topurchase-color-primary: rgb(75, 179, 80);
+  --topurchase-color-secondary: rgb(42, 129, 46);
+  --topurchase-color-contrast: white;
+  --purchased-color-primary: rgb(104, 149, 233);
+  --purchased-color-secondary: rgb(18, 96, 240);
+  --purchased-color-contrast: white;
+
   height: 280px;
   width: 100%;
   min-width: 190px;
   max-width: 240px;
-  overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 0.25rem;
   box-shadow: -3px 5px 8px 0px black;
+  overflow: hidden;
 }
 
 .card-img-container {
@@ -33,36 +32,36 @@
 
 .card-control-toggler {
   max-width: 140px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom-right-radius: 15px;
   margin-left: -140px;
-  border-bottom-right-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
   transition: margin-left 0.15s ease;
 }
 
-.card:hover > .card-control,
-.card-control.card-control-toggler:hover {
+.card:hover .card-control-toggler,
+.card-control-toggler:hover {
   margin-left: 0;
 }
 
 .card-control-list {
+  width: 110px;
+  background-color: white;
   right: 0;
   bottom: 88px;
-  background-color: white;
-  width: 110px;
   margin-right: -105px;
   transition: margin-right 0.15s ease;
 }
 
-.card:hover > .card-control-list,
+.card:hover .card-control-list,
 .card-control-list:hover {
   margin-right: 0;
 }
 
 .card-control-list > ul > li {
+  border-left: 5px solid;
   padding-inline-end: 5px;
   padding-block-start: 2px;
   padding-block-end: 2px;
-  border-left: 5px solid;
   font-size: 0.9em;
   cursor: pointer;
 }
@@ -72,65 +71,28 @@
 }
 
 .card-control-list ul > li.to-purchase {
-  border-left-color: rgb(42, 129, 46);
+  border-left-color: var(--topurchase-color-secondary);
 }
 
+.card.to-purchase .card-body,
+.card-control-list ul > li.to-purchase.active,
 .card-control-list ul > li.to-purchase:hover {
-  background-color: rgb(75, 179, 80);
-  color: white;
+  background-color: var(--topurchase-color-primary);
+  color: var(--topurchase-color-contrast);
 }
 
 .card-control-list ul > li.purchased {
-  border-left-color: rgb(18, 96, 240);
+  border-left-color: var(--purchased-color-secondary);
 }
 
+.card.purchased .card-body,
+.card-control-list ul > li.purchased.active,
 .card-control-list ul > li.purchased:hover {
-  background-color: rgb(104, 149, 233);
-  color: white;
-}
-
-.card-body {
-  overflow: hidden;
+  background-color: var(--purchased-color-primary);
+  border-color: var(--purchased-color-secondary);
+  color: var(--purchased-color-contrast);
 }
 
 .card .card-body .card-title {
   font-size: 16px;
-}
-
-.fa {
-  cursor: pointer;
-  font-size: 1.8em;
-  background-image: initial;
-}
-
-.fa-star {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-image: radial-gradient(
-    ellipse farthest-corner at right bottom,
-    #fedb37 0%,
-    #fdb931 8%,
-    #9f7928 30%,
-    #c59628 40%,
-    #fedb37 58%,
-    #9f7928 75%,
-    #fdb931 85%
-  );
-}
-
-.fa-dollar-active {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-image: radial-gradient(
-    ellipse farthest-corner at right bottom,
-    #8f0808 5%,
-    #ee5858 20%,
-    #d86868 45%,
-    #fcacac 60%,
-    #8f0808 75%,
-    #d86868 85%,
-    #ee5858 90%
-  );
 }

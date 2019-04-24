@@ -1,4 +1,11 @@
-<div class="card m-auto" [title]="comic.title">
+<div
+  class="card"
+  [title]="comic.title"
+  [ngClass]="{
+    'to-purchase': comic.category === Category.TOPURCHASE,
+    purchased: comic.category === Category.PURCHASED
+  }"
+>
   <div class="card-img-container">
     <img src="assets/imgs/on-sale.png" class="on-sale-icon" *ngIf="comic.isOnSale" />
     <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />
@@ -23,8 +30,12 @@
   </div>
   <div class="card-control card-control-list">
     <ul class="list-unstyled text-right m-0">
-      <li class="to-purchase">To purchase <i class="fa fa-check"></i></li>
-      <li class="purchased">Purchased <i class="fa fa-check-circle"></i></li>
+      <li class="to-purchase" (click)="onCategorize(Category.TOPURCHASE)">
+        To purchase <i class="fa fa-check"></i>
+      </li>
+      <li class="purchased" (click)="onCategorize(Category.PURCHASED)">
+        Purchased <i class="fa fa-check-circle"></i>
+      </li>
     </ul>
   </div>
   <div class="card-body px-2 py-3">
