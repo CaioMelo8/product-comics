@@ -1,25 +1,23 @@
-.on-sale-icon {
-  position: absolute;
-  width: 100px;
-  right: -20px;
-  top: -3px;
-  transform: rotate(23deg);
-}
-
 .card {
+  --topurchase-color-primary: rgb(75, 179, 80);
+  --topurchase-color-secondary: rgb(42, 129, 46);
+  --topurchase-color-contrast: white;
+  --purchased-color-primary: rgb(104, 149, 233);
+  --purchased-color-secondary: rgb(18, 96, 240);
+  --purchased-color-contrast: white;
+
   height: 280px;
-  max-width: 240px;
-  min-width: 190px;
   width: 100%;
-  overflow: hidden;
-  border: 1px solid black;
+  min-width: 190px;
+  max-width: 240px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 0.25rem;
   box-shadow: -3px 5px 8px 0px black;
+  overflow: hidden;
 }
 
 .card-img-container {
   height: 190px;
-  border-block-end: 1px solid black;
 }
 
 .card-img-container .card-img-top {
@@ -28,37 +26,73 @@
   object-position: left;
 }
 
-.card:hover > .card-controls,
-.card-controls:hover {
+.card-control {
+  position: absolute;
+}
+
+.card-control-toggler {
+  max-width: 140px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom-right-radius: 15px;
+  margin-left: -140px;
+  transition: margin-left 0.15s ease;
+}
+
+.card:hover .card-control-toggler,
+.card-control-toggler:hover {
   margin-left: 0;
 }
 
-.card-controls {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.7);
-  margin-left: -140px;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
-  transition: margin-left 0.25s ease;
+.card-control-list {
+  width: 110px;
+  background-color: white;
+  right: 0;
+  bottom: 88px;
+  margin-right: -105px;
+  transition: margin-right 0.15s ease;
 }
 
-.card-body {
-  overflow: hidden;
+.card:hover .card-control-list,
+.card-control-list:hover {
+  margin-right: 0;
+}
+
+.card-control-list > ul > li {
+  border-left: 5px solid;
+  padding-inline-end: 5px;
+  padding-block-start: 2px;
+  padding-block-end: 2px;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.card-control-list ul li > i {
+  font-size: 0.8em;
+}
+
+.card-control-list ul > li.to-purchase {
+  border-left-color: var(--topurchase-color-secondary);
+}
+
+.card.to-purchase .card-body,
+.card-control-list ul > li.to-purchase.active,
+.card-control-list ul > li.to-purchase:hover {
+  background-color: var(--topurchase-color-primary);
+  color: var(--topurchase-color-contrast);
+}
+
+.card-control-list ul > li.purchased {
+  border-left-color: var(--purchased-color-secondary);
+}
+
+.card.purchased .card-body,
+.card-control-list ul > li.purchased.active,
+.card-control-list ul > li.purchased:hover {
+  background-color: var(--purchased-color-primary);
+  border-color: var(--purchased-color-secondary);
+  color: var(--purchased-color-contrast);
 }
 
 .card .card-body .card-title {
   font-size: 16px;
-}
-
-.fa {
-  transition: color 0.2s ease;
-  cursor: pointer;
-}
-
-.fa-star {
-  color: rgb(231, 201, 28);
-}
-
-.fa-dollar-active {
-  color: rgb(48, 180, 21);
 }

@@ -1,0 +1,43 @@
+.fa {
+  cursor: pointer;
+  font-size: 1.8em;
+  background-image: initial;
+}
+
+.fa-star {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: radial-gradient(
+    ellipse farthest-corner at right bottom,
+    #fedb37 0%,
+    #fdb931 8%,
+    #9f7928 30%,
+    #c59628 40%,
+    #fedb37 58%,
+    #9f7928 75%,
+    #fdb931 85%
+  );
+}
+
+.fa-dollar-active {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: radial-gradient(
+    ellipse farthest-corner at right bottom,
+    #8f0808 5%,
+    #ee5858 20%,
+    #d86868 45%,
+    #8f0808 60%,
+    #ee5858 75%
+  );
+}
+
+.on-sale-icon {
+  position: absolute;
+  width: 100px;
+  right: -20px;
+  top: -3px;
+  transform: rotate(23deg);
+}
