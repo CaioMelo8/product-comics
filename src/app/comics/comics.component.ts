@@ -22,6 +22,7 @@ export class ComicsComponent {
   Category = Category;
 
   constructor(private comicService: ComicService, private modalService: NgbModal) {
+    this.loadMore();
     this.comicService
       .getUpdates()
       .subscribe((update: { type: string; comic: Comic[] }) => this.updateLists(update));
@@ -48,7 +49,7 @@ export class ComicsComponent {
   loadMore() {
     this.isLoadingMore = true;
 
-    this.comicService.listAll(++this.currentPage).subscribe((comics: Comic[]) => {
+    this.comicService.listPage(this.currentPage++).subscribe((comics: Comic[]) => {
       this.comics.push(...comics);
       this.isLoadingMore = false;
     });

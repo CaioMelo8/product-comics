@@ -8,7 +8,7 @@ import { Comic } from './comic';
 @Component({
   selector: 'app-comic',
   templateUrl: './comic.component.html',
-  styleUrls: ['./comic.component.css', './comic-icons.component.css'],
+  styleUrls: ['./comic-card.component.css', './comic-icons.component.css'],
 })
 export class ComicComponent implements OnInit {
   @Input() comic: Comic;
@@ -21,7 +21,7 @@ export class ComicComponent implements OnInit {
 
   ngOnInit() {
     this.updateDebounce.pipe(debounceTime(400)).subscribe(() => {
-      this.comicService.updateComic(this.comic);
+      this.comicService.update(this.comic);
     });
   }
 

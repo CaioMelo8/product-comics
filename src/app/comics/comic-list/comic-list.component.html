@@ -1,10 +1,14 @@
-<div class="row p-2" *ngIf="comics && comics.length > 0; else noProducts">
-  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 my-2" *ngFor="let comic of comics">
+<div class="row justify-content-center" *ngIf="comics && comics.length > 0; else noProducts">
+  <div class="col-auto my-2" *ngFor="let comic of comics">
     <app-comic [comic]="comic"></app-comic>
   </div>
 </div>
 <ng-template #noProducts>
-  <p class="text-muted">
-    There are no comics here
-  </p>
+  <div class="row">
+    <div class="col-auto m-auto">
+      <p class="text-muted">
+        There are no comics here
+      </p>
+    </div>
+  </div>
 </ng-template>

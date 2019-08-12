@@ -7,25 +7,25 @@
   }"
 >
   <div class="card-img-container">
-    <img src="assets/imgs/on-sale.png" class="on-sale-icon" *ngIf="comic.isOnSale" />
+    <div
+      class="card-control sale-icon inactive"
+      [ngClass]="{ active: comic.isOnSale, inactive: !comic.isOnSale }"
+      (click)="onSale()"
+      title="Add to On Sale"
+    >
+      ON SALE
+    </div>
     <img class="card-img-top" [src]="comic.thumbnail?.path + '.' + comic.thumbnail?.extension" />
   </div>
-  <div class="card-control card-control-toggler pr-2 pb-1">
+  <div class="card-control card-control-toggler p-2">
     <i
-      class="fa m-1"
+      class="fa fa-2x"
       [class.fa-star]="comic.isFavorite"
       [class.fa-star-o]="!comic.isFavorite"
       [ngStyle]="{ style: expression }"
       (click)="onFavorite()"
       title="Add to Favorites"
       aria-hidden="true"
-    ></i>
-    <i
-      class="fa fa-dollar m-1"
-      [class.fa-dollar-active]="comic.isOnSale"
-      (click)="onSale()"
-      title='Add to "On Sale"'
-      arial-hidden="true"
     ></i>
   </div>
   <div class="card-control card-control-list">

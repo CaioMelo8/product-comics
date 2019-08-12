@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 import { GlobalRequestInterceptor } from './auth/global-request.interceptor';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   exports: [FooterComponent, HeaderComponent],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: GlobalRequestInterceptor, multi: true }],
 })

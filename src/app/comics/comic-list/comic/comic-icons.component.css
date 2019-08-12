@@ -1,6 +1,5 @@
 .fa {
   cursor: pointer;
-  font-size: 1.8em;
   background-image: initial;
 }
 
@@ -21,9 +20,7 @@
 }
 
 .fa-dollar-active {
-  -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-image: radial-gradient(
     ellipse farthest-corner at right bottom,
     #8f0808 5%,
@@ -34,10 +31,37 @@
   );
 }
 
-.on-sale-icon {
-  position: absolute;
-  width: 100px;
-  right: -20px;
-  top: -3px;
-  transform: rotate(23deg);
+.sale-icon {
+  right: -27px;
+  top: 13px;
+  width: 110px;
+
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
+
+  text-align: center;
+  line-height: 28px;
+  font-size: 14px;
+  font-weight: bolder;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.sale-icon.inactive {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+*:hover .sale-icon.inactive,
+.sale-icon.inactive:hover {
+  background-color: rgba(255, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sale-icon.active {
+  background-color: rgba(255, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
 }

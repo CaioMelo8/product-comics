@@ -1,24 +1,21 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm">
-  <a href="#" class="navbar-brand">PComics</a>
+  <a class="navbar-brand" [routerLink]="['/home']">PComics</a>
   <button class="navbar-toggler" type="button" (click)="navbarCollapseToggle()">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [class.show]="navbarOpen">
     <ul class="navbar-nav mr-auto mt-1 mt-sm-0">
       <li class="nav-item">
-        <a href="#" class="nav-link">Home</a>
+        <a
+          class="nav-link"
+          [routerLink]="['/home']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Home</a
+        >
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">Comics</a>
-      </li>
-      <li class="nav-item dropdown ">
-        <a class="nav-link dropdown-toggle" href="#" (click)="dropdownToggle()">My Lists</a>
-        <div class="dropdown-menu" [class.show]="dropdownOpen">
-          <a href="#" class="dropdown-item">To Buy</a>
-          <a href="#" class="dropdown-item">Bought</a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">Favorites</a>
-        </div>
+        <a class="nav-link" [routerLink]="['/comics']" routerLinkActive="active">Comics</a>
       </li>
     </ul>
   </div>

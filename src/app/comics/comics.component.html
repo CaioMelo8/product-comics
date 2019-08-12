@@ -1,27 +1,4 @@
-<div class="container-fluid container-full mx-auto py-3">
-  <div class="row">
-    <div class="col-auto mx-auto">
-      <h2>On Sale</h2>
-    </div>
-  </div>
-  <div class="row" *ngIf="(onSale$ | async) as onSale">
-    <div class="col-12 text-center">
-      <app-comic-list [comics]="onSale"></app-comic-list>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-auto mx-auto">
-      <h2>Your Favorites</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12 text-center">
-      <app-comic-list
-        *ngIf="(favorites$ | async) as favorites"
-        [comics]="favorites"
-      ></app-comic-list>
-    </div>
-  </div>
+<div class="container-fluid mx-auto py-3">
   <div class="row">
     <div class="col-auto mx-auto">
       <h2 class="m-0">All Comics</h2>

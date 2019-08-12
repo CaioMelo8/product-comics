@@ -28,6 +28,6 @@ import { FilterSearch } from './filter-search.pipe';
     VMessageModule,
   ],
   exports: [],
-  providers: [ComicService, ComicStorageService],
+  providers: [ComicStorageService],
 })
 export class ComicModule {}

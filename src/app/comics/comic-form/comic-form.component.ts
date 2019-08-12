@@ -32,7 +32,7 @@ export class ComicFormComponent implements OnInit {
     const formData = this.addForm.getRawValue();
     const newComic = this.comicService.toComic(formData);
 
-    this.comicService.addComic(newComic);
+    this.comicService.add(newComic);
     this.modalService.dismiss('Submit');
   }
 }

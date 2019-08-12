@@ -1,23 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { Subject, of, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Comic } from './comic-list/comic/comic';
 import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
+const DEFAULT_OFFSET = 150;
 const DEFAULT_COMICS_PER_PAGE = 30;
 const DEFAULT_FAVORITES_PER_PAGE = 10;
+const DEFAULT_LATEST_COUNT = 10;
 
 const STORAGE_KEY_COMICS = 'comics';
-const STORAGE_KEY_LAST_PAGE = 'last_page';
+const STORAGE_KEY_NEXT_PAGE = 'next_page';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ComicService {
-  updateSubject = new BehaviorSubject<{ type: string; comic: Comic[] }>(null);
+  updateSubject = new Subject<{ type: string; comic: Comic[] }>();
+  cached_comics: Comic[];
+  nextPage: number;
 
-  constructor(private http: HttpClient, private storageService: ComicStorageService) {}
+  init$: Observable<Comic[]>;
+
+  constructor(private http: HttpClient, private storageService: ComicStorageService) {
+    this.init$ = this.init();
+  }
+
+  init(): Observable<Comic[]> {
+    this.cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+    this.nextPage = +window.localStorage.getItem(STORAGE_KEY_NEXT_PAGE);
+
+    if (!this.cached_comics) {
+      return this.listPage(0);
+    }
+
+    return of(this.cached_comics);
+  }
 
   toComic(object: Object) {
     const comic = new Comic();
@@ -35,18 +54,21 @@ export class ComicService {
   private fetchComics(offset: number = 0, limit: number = DEFAULT_COMICS_PER_PAGE) {
     return this.http
       .get<Comic[]>(API_URL + 'public/comics', {
-        params: { offset: offset.toString(), limit: limit.toString() },
+        params: { offset: (offset + DEFAULT_OFFSET).toString(), limit: limit.toString() },
       })
       .pipe(
         map((response: any) => {
           const comics = response.data.results;
-          return comics.map(comic => this.toComic(comic));
-        })
+          return comics.map((comic: Comic[]) => this.toComic(comic));
+        }),
       );
   }
 
-  private cacheFetchedComics(comics: Comic[]) {
+  private cacheFetchedComics(comics: Comic[], page: number) {
     const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+
+    page++;
+    window.localStorage.setItem(STORAGE_KEY_NEXT_PAGE, page.toString());
 
     if (cached_comics) {
       cached_comics.push(...comics);
@@ -58,17 +80,19 @@ export class ComicService {
     }
   }
 
-  private listByKey(page: number, key: string) {
-    const offset = (page - 1) * DEFAULT_FAVORITES_PER_PAGE;
-    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+  private listByKey(key: string, page?: number) {
+    let cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
     if (cached_comics) {
       let favoriteCount = 0;
 
+      if (page) {
+        const offset = page * DEFAULT_FAVORITES_PER_PAGE;
+        cached_comics = cached_comics.slice(offset, offset + DEFAULT_FAVORITES_PER_PAGE);
+      }
+
       return of(
-        cached_comics
-          .splice(offset)
-          .filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
+        cached_comics.filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE),
       );
     }
 
@@ -79,48 +103,55 @@ export class ComicService {
     return this.updateSubject.asObservable();
   }
 
-  listAll(page: number) {
-    const page_start = (page - 1) * DEFAULT_COMICS_PER_PAGE;
-    const page_end = page_start + DEFAULT_COMICS_PER_PAGE;
-    const next_page = +window.localStorage.getItem(STORAGE_KEY_LAST_PAGE);
+  listPage(page: number): Observable<Comic[]> {
+    const offset = page * DEFAULT_COMICS_PER_PAGE;
+    const next_page = +window.localStorage.getItem(STORAGE_KEY_NEXT_PAGE);
+
     let cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
     if (!cached_comics) {
       cached_comics = [];
     }
 
-    if (page - 1 < next_page) {
+    if (page < next_page) {
       console.log('page ' + page + ' retrieved from local storage');
-      return of(cached_comics.slice(page_start, page_end));
-    } else if (page - 1 === next_page) {
-      return this.fetchComics(page_start)
+      return of(cached_comics.slice(offset, offset + DEFAULT_COMICS_PER_PAGE));
+    } else if (page === next_page) {
+      return this.fetchComics(offset)
         .pipe(
           tap((results: Comic[]) => {
-            this.cacheFetchedComics(results);
-            window.localStorage.setItem(STORAGE_KEY_LAST_PAGE, page.toString());
+            this.cacheFetchedComics(results, page);
             console.log('page ' + page + ' saved on local storage');
-          })
+          }),
         )
-        .pipe(switchMap(() => this.listAll(page)));
+        .pipe(switchMap(() => this.listPage(page)));
     } else {
-      return this.listAll(page - 1).pipe(switchMap(() => this.listAll(page)));
+      return this.listPage(page - 1).pipe(switchMap(() => this.listPage(page)));
     }
   }
 
-  listFavorites(page: number) {
-    return this.listByKey(page, 'isFavorite');
+  listLatest(): Observable<Comic[]> {
+    const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
+
+    if (cached_comics) {
+      return of(cached_comics.slice(0, DEFAULT_LATEST_COUNT));
+    }
+
+    return this.init$.pipe(map((comics: Comic[]) => comics.slice(0, DEFAULT_LATEST_COUNT)));
   }
 
-  listOnSale(page: number) {
-    return this.listByKey(page, 'isOnSale');
+  listFavorites(page?: number) {
+    return this.listByKey('isFavorite', page);
   }
 
-  addComic(...comics: Comic[]) {
+  listOnSale(page?: number) {
+    return this.listByKey('isOnSale', page);
+  }
+
+  add(...comics: Comic[]) {
     if (!comics) {
       return;
     }
-
-    const originals = comics.slice();
 
     const cached_comics = this.storageService.fromLocalStorage(STORAGE_KEY_COMICS);
 
@@ -129,10 +160,10 @@ export class ComicService {
     }
 
     this.storageService.toLocalStorage(STORAGE_KEY_COMICS, comics);
-    this.updateSubject.next({ type: 'add', comic: originals });
+    this.updateSubject.next({ type: 'add', comic: comics });
   }
 
-  updateComic(...comics: Comic[]) {
+  update(...comics: Comic[]) {
     if (!comics) {
       return;
     }
@@ -145,6 +176,6 @@ export class ComicService {
       }
     });
 
-    this.updateSubject.next({ type: 'update', comic: updatedComics });
+    this.updateSubject.next({ type: 'update', comic: comics });
   }
 }
