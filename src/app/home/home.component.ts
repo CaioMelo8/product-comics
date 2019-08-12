@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Comic } from '../comics/comic-list/comic/comic';
-import { ComicService } from '../comics/comic.service';
+import { ComicService } from '../comics/service/comic.service';
 
 @Component({
   templateUrl: './home.component.html',

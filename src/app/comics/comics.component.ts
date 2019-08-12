@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { ComicFormComponent } from './comic-form/comic-form.component';
 import { Category } from './comic-list/comic/category.enum';
 import { Comic } from './comic-list/comic/comic';
-import { ComicService } from './comic.service';
+import { ComicEvent } from './service/comic.event';
+import { ComicService } from './service/comic.service';
 
 @Component({
   templateUrl: './comics.component.html',
@@ -23,16 +24,13 @@ export class ComicsComponent {
 
   constructor(private comicService: ComicService, private modalService: NgbModal) {
     this.loadMore();
-    this.comicService
-      .getUpdates()
-      .subscribe((update: { type: string; comic: Comic[] }) => this.updateLists(update));
+
+    this.comicService.getUpdates().subscribe((event: ComicEvent) => this.updateLists(event));
   }
 
-  updateLists(update: { type: string; comic: Comic[] }) {
-    if (!update) {
-      this.loadMore();
-    } else if (update.type === 'add') {
-      this.comics = update.comic.concat(this.comics);
+  updateLists(event: ComicEvent) {
+    if (event.type === 'add') {
+      this.comics = event.comics.concat(this.comics);
     }
 
     this.favorites$ = this.comicService.listFavorites(this.currentPage);

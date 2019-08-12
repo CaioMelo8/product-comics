@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ComicService } from '../../comic.service';
+import { ComicService } from '../../service/comic.service';
 import { Category } from './category.enum';
 import { Comic } from './comic';
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComicMapper } from 'src/app/shared/mappers/comic.mapper';
 import { Category } from '../comic-list/comic/category.enum';
-import { ComicService } from '../comic.service';
+import { ComicService } from '../service/comic.service';
 
 @Component({
   templateUrl: './comic-form.component.html',
@@ -15,7 +16,7 @@ export class ComicFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private comicService: ComicService,
-    public modalService: NgbActiveModal,
+    public modalService: NgbActiveModal
   ) {}
 
   ngOnInit() {
@@ -30,7 +31,7 @@ export class ComicFormComponent implements OnInit {
 
   onSubmit() {
     const formData = this.addForm.getRawValue();
-    const newComic = this.comicService.toComic(formData);
+    const newComic = ComicMapper.map(formData);
 
     this.comicService.add(newComic);
     this.modalService.dismiss('Submit');

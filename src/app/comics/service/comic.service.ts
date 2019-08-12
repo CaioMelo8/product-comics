@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, of, Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { Comic } from './comic-list/comic/comic';
+import { environment } from '../../../environments/environment';
+import { ComicMapper } from '../../shared/mappers/comic.mapper';
+import { Comic } from '../comic-list/comic/comic';
+import { ComicEvent } from './comic.event';
 import { ComicStorageService } from './comic-storage.service';
 
 const API_URL = environment.API_ENDPOINT;
@@ -17,7 +19,7 @@ const STORAGE_KEY_NEXT_PAGE = 'next_page';
 
 @Injectable({ providedIn: 'root' })
 export class ComicService {
-  updateSubject = new Subject<{ type: string; comic: Comic[] }>();
+  updateSubject = new Subject<ComicEvent>();
   cached_comics: Comic[];
   nextPage: number;
 
@@ -38,19 +40,6 @@ export class ComicService {
     return of(this.cached_comics);
   }
 
-  toComic(object: Object) {
-    const comic = new Comic();
-    const keys = Object.keys(comic);
-
-    keys.forEach(key => {
-      if (key in object) {
-        comic[key] = object[key];
-      }
-    });
-
-    return comic;
-  }
-
   private fetchComics(offset: number = 0, limit: number = DEFAULT_COMICS_PER_PAGE) {
     return this.http
       .get<Comic[]>(API_URL + 'public/comics', {
@@ -59,8 +48,8 @@ export class ComicService {
       .pipe(
         map((response: any) => {
           const comics = response.data.results;
-          return comics.map((comic: Comic[]) => this.toComic(comic));
-        }),
+          return comics.map((comic: Comic[]) => ComicMapper.map(comic));
+        })
       );
   }
 
@@ -92,15 +81,11 @@ export class ComicService {
       }
 
       return of(
-        cached_comics.filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE),
+        cached_comics.filter(comic => comic[key] && favoriteCount++ < DEFAULT_FAVORITES_PER_PAGE)
       );
     }
 
     return of([]);
-  }
-
-  getUpdates() {
-    return this.updateSubject.asObservable();
   }
 
   listPage(page: number): Observable<Comic[]> {
@@ -122,7 +107,7 @@ export class ComicService {
           tap((results: Comic[]) => {
             this.cacheFetchedComics(results, page);
             console.log('page ' + page + ' saved on local storage');
-          }),
+          })
         )
         .pipe(switchMap(() => this.listPage(page)));
     } else {
@@ -160,7 +145,7 @@ export class ComicService {
     }
 
     this.storageService.toLocalStorage(STORAGE_KEY_COMICS, comics);
-    this.updateSubject.next({ type: 'add', comic: comics });
+    this.updateSubject.next(new ComicEvent('add', comics));
   }
 
   update(...comics: Comic[]) {
@@ -176,6 +161,10 @@ export class ComicService {
       }
     });
 
-    this.updateSubject.next({ type: 'update', comic: comics });
+    this.updateSubject.next(new ComicEvent('update', comics));
+  }
+
+  getUpdates() {
+    return this.updateSubject.asObservable();
   }
 }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Comic } from './comic-list/comic/comic';
+import { Comic } from '../comic-list/comic/comic';
 
 @Pipe({ name: 'filterSearch' })
 export class FilterSearch implements PipeTransform {
