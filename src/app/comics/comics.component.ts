@@ -17,15 +17,13 @@ export class ComicsComponent {
   onSale$: Observable<Comic[]>;
 
   searchQuery = '';
-  currentPage = 0;
-  isLoadingMore = true;
+  isLoadingMore = false;
 
   Category = Category;
 
   constructor(private comicService: ComicService, private modalService: NgbModal) {
-    this.loadMore();
-
-    this.comicService.getUpdates().subscribe((event: ComicEvent) => this.updateLists(event));
+    this.loadCached();
+    this.comicService.getEvents().subscribe((event: ComicEvent) => this.updateLists(event));
   }
 
   updateLists(event: ComicEvent) {
@@ -33,8 +31,8 @@ export class ComicsComponent {
       this.comics = event.comics.concat(this.comics);
     }
 
-    this.favorites$ = this.comicService.listFavorites(this.currentPage);
-    this.onSale$ = this.comicService.listOnSale(this.currentPage);
+    this.favorites$ = this.comicService.listFavorites();
+    this.onSale$ = this.comicService.listOnSale();
   }
 
   onAddComic() {
@@ -44,10 +42,18 @@ export class ComicsComponent {
     });
   }
 
+  loadCached() {
+    this.comics = this.comicService.listCachedComics();
+
+    if (this.comics.length === 0) {
+      this.loadMore();
+    }
+  }
+
   loadMore() {
     this.isLoadingMore = true;
 
-    this.comicService.listPage(this.currentPage++).subscribe((comics: Comic[]) => {
+    this.comicService.listMore().subscribe((comics: Comic[]) => {
       this.comics.push(...comics);
       this.isLoadingMore = false;
     });

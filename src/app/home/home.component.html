@@ -3,7 +3,7 @@
     <div class="col-auto mx-auto">
       <h2>On Sale</h2>
     </div>
-    <div class="col-12" *ngIf="(onSale$ | async) as onSale">
+    <div class="col-12" *ngIf="onSale$ | async as onSale">
       <app-comic-list [comics]="onSale"></app-comic-list>
     </div>
   </div>
@@ -12,17 +12,14 @@
       <h2>Favorites</h2>
     </div>
     <div class="col-12">
-      <app-comic-list
-        *ngIf="(favorites$ | async) as favorites"
-        [comics]="favorites"
-      ></app-comic-list>
+      <app-comic-list *ngIf="favorites$ | async as favorites" [comics]="favorites"></app-comic-list>
     </div>
   </div>
   <div class="row">
     <div class="col-auto mx-auto">
       <h2>Latest added</h2>
     </div>
-    <div class="col-12" *ngIf="(latest$ | async) as latest; else loadingLatest">
+    <div class="col-12" *ngIf="latest$ | async as latest; else loadingLatest">
       <app-comic-list [comics]="latest"></app-comic-list>
     </div>
     <ng-template #loadingLatest>

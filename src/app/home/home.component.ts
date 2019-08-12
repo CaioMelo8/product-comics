@@ -14,7 +14,7 @@ export class HomeComponent {
 
   constructor(private comicService: ComicService) {
     this.updateLists();
-    this.comicService.getUpdates().subscribe(() => this.updateLists());
+    this.comicService.getEvents().subscribe(() => this.updateLists());
   }
 
   updateLists() {
